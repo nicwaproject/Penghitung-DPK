@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penghitung Denda Pengaktifan Kembali</title>
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Hitung DPK">
+    <meta property="og:description" content="Penghitung DPK Air PTAM Giri Menang">
+    <meta property="og:image" content="">
+    <meta property="og:image:width" content="300">
+    <meta property="og:image:height" content="300">
+
+    <!-- Favicon -->
+    <link rel="icon" href="ptamgm.png" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffffff;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .form-group button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #ffff;
+        }
+        .result div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            padding: 5px 10px;
+        }
+        .result div:nth-child(odd) {
+            background-color: #ffffff; /* Warna latar belakang untuk baris ganjil */
+        }
+        .result div:nth-child(even) {
+            background-color: #ffffff; /* Warna latar belakang untuk baris genap */
+        }
+        .result div.highlight {
+            background-color: #d4edda; /* Warna latar belakang untuk highlight */
+        }
+        .result div.total-highlight {
+            background-color: #ffeeba; /* Warna latar belakang untuk total */
+        }
+        .result div span {
+            font-weight: bold;
+        }
+        .print-button {
+            margin-top: 10px;
+            background-color: #28a745;
+        }
+        .print-button:hover {
+            background-color: #218838;
+        }
+        @media print {
+            body {
+                visibility: hidden;
+                margin: 0;
+            }
+            .container {
+                visibility: visible;
+                position: fixed;
+                bottom: 5%;
+                left: 0;
+                right: 0;
+                margin: auto;
+                padding: 10px;
+                width: 100%;
+                max-width: none;
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+            h2, .form-group, .print-button {
+                display: none;
+            }
+            .result {
+                margin-top: 0;
+            }
+            .result div {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Penghitung Denda Pengaktifan Kembali</h2>
+        <div class="form-group">
+            <label for="tanggalPencabutan">Tanggal Pencabutan:</label>
+            <input type="date" id="tanggalPencabutan" required>
+        </div>
+        <div class="form-group">
+            <label for="jumlahTunggakan">Jumlah Tunggakan (Rp):</label>
+            <input type="number" id="jumlahTunggakan" required>
+        </div>
+        <div class="form-group">
+            <button onclick="hitungDenda()">Hitung Denda</button>
+        </div>
+        <div class="result" id="result"></div>
+        <div class="form-group">
+            <button class="print-button" onclick="printResult()">Cetak Hasil</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('tanggalPencabutan').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                hitungDenda();
+            }
+        });
+
+        document.getElementById('jumlahTunggakan').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                hitungDenda();
+            }
+        });
+
+        function hitungDenda() {
+            const tanggalPencabutan = new Date(document.getElementById('tanggalPencabutan').value);
+            const jumlahTunggakan = parseFloat(document.getElementById('jumlahTunggakan').value);
+            const sekarang = new Date();
+            const diffTime = Math.abs(sekarang - tanggalPencabutan);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const diffMonths = diffDays / 30;
+
+            let denda = 0;
+            let batasTanggal = '';
+
+            if (diffMonths <= 1) {
+                denda = 200000;
+                batasTanggal = new Date(tanggalPencabutan);
+                batasTanggal.setMonth(tanggalPencabutan.getMonth() + 1);
+            } else if (diffMonths > 1 && diffMonths <= 2) {
+                denda = 500000;
+                batasTanggal = new Date(tanggalPencabutan);
+                batasTanggal.setMonth(tanggalPencabutan.getMonth() + 2);
+            } else if (diffMonths > 2 && diffMonths <= 3) {
+                denda = 750000;
+                batasTanggal = new Date(tanggalPencabutan);
+                batasTanggal.setMonth(tanggalPencabutan.getMonth() + 3);
+            } else if (diffMonths > 3 && diffMonths <= 4) {
+                denda = 1000000;
+                batasTanggal = new Date(tanggalPencabutan);
+                batasTanggal.setMonth(tanggalPencabutan.getMonth() + 4);
+            } else if (diffMonths > 4) {
+                denda = 1750000;
+                batasTanggal = 'Tidak ada batas tanggal, ini adalah denda maksimum.';
+            }
+
+            let batasTanggalStr = '';
+            if (typeof batasTanggal !== 'string') {
+                batasTanggalStr = batasTanggal.toLocaleDateString();
+            } else {
+                batasTanggalStr = batasTanggal;
+            }
+
+            const totalTunggakan = jumlahTunggakan + denda;
+
+            const resultElement = document.getElementById('result');
+            resultElement.innerHTML = `
+                <div class="highlight"><span>Tanggal Pencabutan:</span><span>${tanggalPencabutan.toLocaleDateString()}</span></div>
+                <div><span>Jumlah Tunggakan:</span><span>Rp ${jumlahTunggakan.toLocaleString()}</span></div>
+                <div><span>Denda:</span><span>Rp ${denda.toLocaleString()}</span></div>
+                <div class="highlight"><span>Batas Tanggal Sebelum Denda Naik:</span><span>${batasTanggalStr}</span></div>
+                <div class="total-highlight"><span>Total Tunggakan:</span><span>Rp ${totalTunggakan.toLocaleString()}</span></div>
+            `;
+        }
+
+        function printResult() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
