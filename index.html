@@ -124,7 +124,7 @@
     <div class="container">
         <h2>Penghitung Denda Pengaktifan Kembali</h2>
         <div class="form-group">
-            <label for="tanggalPencabutan">Tanggal Pencabutan:</label>
+            <label for="tanggalPencabutan">Tanggal Putus/Segel:</label>
             <input type="date" id="tanggalPencabutan" required>
         </div>
         <div class="form-group">
@@ -196,11 +196,11 @@
 
             const resultElement = document.getElementById('result');
             resultElement.innerHTML = `
-                <div class="highlight"><span>Tanggal Pencabutan:</span><span>${tanggalPencabutan.toLocaleDateString()}</span></div>
+                <div class="highlight"><span>Tanggal Putus/Segel:</span><span>${tanggalPencabutan.toLocaleDateString()}</span></div>
                 <div><span>Jumlah Tunggakan:</span><span>Rp ${jumlahTunggakan.toLocaleString()}</span></div>
                 <div><span>Denda:</span><span>Rp ${denda.toLocaleString()}</span></div>
-                <div class="highlight"><span>Batas Tanggal Sebelum Denda Naik:</span><span>${batasTanggalStr}</span></div>
-                <div class="total-highlight"><span>Total Tunggakan:</span><span>Rp ${totalTunggakan.toLocaleString()}</span></div>
+                <div class="highlight"><span>Batas Waktu Pembayaran:</span><span>${batasTanggalStr}</span></div>
+                <div class="total-highlight"><span>Total Pembayaran:</span><span>Rp ${totalTunggakan.toLocaleString()}</span></div>
             `;
         }
 
