@@ -6,7 +6,7 @@
     <title>Penghitung Denda Pengaktifan Kembali</title>
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Hitung DPK">
-    <meta property="og:description" content="Penghitung DPK Air PTAM Giri Menang">
+    <meta property="og:description" content="Penghitung DPK PT Air PTAM Giri Menang">
     <meta property="og:image" content="">
     <meta property="og:image:width" content="300">
     <meta property="og:image:height" content="300">
@@ -21,7 +21,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #ffffff;
+            background-color: #ffff;
         }
         .container {
             background-color: white;
@@ -38,7 +38,7 @@
             display: block;
             margin-bottom: 5px;
         }
-        .form-group input {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 8px;
             box-sizing: border-box;
@@ -69,16 +69,16 @@
             padding: 5px 10px;
         }
         .result div:nth-child(odd) {
-            background-color: #ffffff; /* Warna latar belakang untuk baris ganjil */
+            background-color: #ffffff;
         }
         .result div:nth-child(even) {
-            background-color: #ffffff; /* Warna latar belakang untuk baris genap */
+            background-color: #ffff;
         }
         .result div.highlight {
-            background-color: #FF66CC; /* Warna latar belakang untuk highlight */
+            background-color: var(--highlight-color, #d4edda);
         }
         .result div.total-highlight {
-            background-color: #FFFF00; /* Warna latar belakang untuk total */
+            background-color: var(--total-highlight-color, #ffeeba);
         }
         .result div span {
             font-weight: bold;
@@ -98,11 +98,11 @@
             .container {
                 visibility: visible;
                 position: fixed;
-                bottom: 5%;
+                bottom: 10%;
                 left: 0;
                 right: 0;
                 margin: auto;
-                padding: 10px;
+                padding: 20px;
                 width: 100%;
                 max-width: none;
                 box-shadow: none;
@@ -124,12 +124,23 @@
     <div class="container">
         <h2>Penghitung Denda Pengaktifan Kembali</h2>
         <div class="form-group">
-            <label for="tanggalPencabutan">Tanggal Putus/Segel:</label>
+            <label for="tanggalPencabutan">Tanggal Pencabutan:</label>
             <input type="date" id="tanggalPencabutan" required>
         </div>
         <div class="form-group">
             <label for="jumlahTunggakan">Jumlah Tunggakan (Rp):</label>
-            <input type="number" id="jumlahTunggakan" required>
+            <input type="text" id="jumlahTunggakan" required>
+        </div>
+        <div class="form-group">
+            <label for="tema">Pilih Tema:</label>
+            <select id="tema" onchange="ubahTema()">
+                <option value="default">Default</option>
+                <option value="tema1">Agnez</option>
+                <option value="tema2">Iin</option>
+                <option value="tema3">Lala</option>
+                <option value="tema4">Dian</option>
+                <option value="tema5">Arin</option>
+            </select>
         </div>
         <div class="form-group">
             <button onclick="hitungDenda()">Hitung Denda</button>
@@ -147,6 +158,13 @@
             }
         });
 
+        document.getElementById('jumlahTunggakan').addEventListener('input', function (e) {
+            let value = e.target.value;
+            value = value.replace(/,/g, '');
+            value = Number(value).toLocaleString();
+            e.target.value = value;
+        });
+
         document.getElementById('jumlahTunggakan').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 hitungDenda();
@@ -155,32 +173,32 @@
 
         function hitungDenda() {
             const tanggalPencabutan = new Date(document.getElementById('tanggalPencabutan').value);
-            const jumlahTunggakan = parseFloat(document.getElementById('jumlahTunggakan').value);
+            const jumlahTunggakanInput = document.getElementById('jumlahTunggakan').value;
+            const jumlahTunggakan = parseFloat(jumlahTunggakanInput.replace(/,/g, ''));
             const sekarang = new Date();
             const diffTime = Math.abs(sekarang - tanggalPencabutan);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            const diffMonths = diffDays / 30;
 
             let denda = 0;
             let batasTanggal = '';
 
-            if (diffMonths <= 1) {
+            if (diffDays <= 30) {
                 denda = 200000;
                 batasTanggal = new Date(tanggalPencabutan);
-                batasTanggal.setMonth(tanggalPencabutan.getMonth() + 1);
-            } else if (diffMonths > 1 && diffMonths <= 2) {
+                batasTanggal.setDate(tanggalPencabutan.getDate() + 30);
+            } else if (diffDays > 30 && diffDays <= 60) {
                 denda = 500000;
                 batasTanggal = new Date(tanggalPencabutan);
-                batasTanggal.setMonth(tanggalPencabutan.getMonth() + 2);
-            } else if (diffMonths > 2 && diffMonths <= 3) {
+                batasTanggal.setDate(tanggalPencabutan.getDate() + 60);
+            } else if (diffDays > 60 && diffDays <= 90) {
                 denda = 750000;
                 batasTanggal = new Date(tanggalPencabutan);
-                batasTanggal.setMonth(tanggalPencabutan.getMonth() + 3);
-            } else if (diffMonths > 3 && diffMonths <= 4) {
+                batasTanggal.setDate(tanggalPencabutan.getDate() + 90);
+            } else if (diffDays > 90 && diffDays <= 120) {
                 denda = 1000000;
                 batasTanggal = new Date(tanggalPencabutan);
-                batasTanggal.setMonth(tanggalPencabutan.getMonth() + 4);
-            } else if (diffMonths > 4) {
+                batasTanggal.setDate(tanggalPencabutan.getDate() + 120);
+            } else if (diffDays > 120) {
                 denda = 1750000;
                 batasTanggal = 'Tidak ada batas tanggal, ini adalah denda maksimum.';
             }
@@ -196,7 +214,7 @@
 
             const resultElement = document.getElementById('result');
             resultElement.innerHTML = `
-                <div class="highlight"><span>Tanggal Putus/Segel:</span><span>${tanggalPencabutan.toLocaleDateString()}</span></div>
+                <div class="highlight"><span>Tanggal Putus / Segel:</span><span>${tanggalPencabutan.toLocaleDateString()}</span></div>
                 <div><span>Jumlah Tunggakan:</span><span>Rp ${jumlahTunggakan.toLocaleString()}</span></div>
                 <div><span>Denda:</span><span>Rp ${denda.toLocaleString()}</span></div>
                 <div class="highlight"><span>Batas Waktu Pembayaran:</span><span>${batasTanggalStr}</span></div>
@@ -206,6 +224,29 @@
 
         function printResult() {
             window.print();
+        }
+
+        function ubahTema() {
+            const tema = document.getElementById('tema').value;
+            if (tema === 'default') {
+                document.documentElement.style.setProperty('--highlight-color', '#d4edda');
+                document.documentElement.style.setProperty('--total-highlight-color', '#ffeeba');
+            } else if (tema === 'tema1') {
+                document.documentElement.style.setProperty('--highlight-color', '#FF66CC');
+                document.documentElement.style.setProperty('--total-highlight-color', '#FFFF00');
+            } else if (tema === 'tema2') {
+                document.documentElement.style.setProperty('--highlight-color', '#F8D210');
+                document.documentElement.style.setProperty('--total-highlight-color', '#2FF3E0');
+            } else if (tema === 'tema3') {
+                document.documentElement.style.setProperty('--highlight-color', '#B4FEE7');
+                document.documentElement.style.setProperty('--total-highlight-color', '#A16AE8');
+            } else if (tema === 'tema4') {
+                document.documentElement.style.setProperty('--highlight-color', '#F7D6C0');
+                document.documentElement.style.setProperty('--total-highlight-color', '#96AD90');
+            } else if (tema === 'tema5') {
+                document.documentElement.style.setProperty('--highlight-color', '#FF7077');
+                document.documentElement.style.setProperty('--total-highlight-color', '#FFB067');
+            }
         }
     </script>
 </body>
