@@ -176,7 +176,11 @@
             const jumlahTunggakanInput = document.getElementById('jumlahTunggakan').value;
             const jumlahTunggakan = parseFloat(jumlahTunggakanInput.replace(/,/g, ''));
             const sekarang = new Date();
-            const diffTime = Math.abs(sekarang - tanggalPencabutan);
+            // Tambahkan satu hari setelah tanggal pencabutan
+            const hariSetelahPencabutan = new Date(tanggalPencabutan);
+            hariSetelahPencabutan.setDate(tanggalPencabutan.getDate() + 1);
+
+            const diffTime = Math.abs(sekarang - hariSetelahPencabutan);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
             let denda = 0;
@@ -184,25 +188,24 @@
 
             if (diffDays <= 30) {
                 denda = 200000;
-                batasTanggal = new Date(tanggalPencabutan);
-                batasTanggal.setDate(tanggalPencabutan.getDate() + 30);
-            } else if (diffDays > 30 && diffDays <= 60) {
+                batasTanggal = new Date(hariSetelahPencabutan);
+                batasTanggal.setDate(hariSetelahPencabutan.getDate() + 30);
+                    } else if (diffDays > 30 && diffDays <= 60) {
                 denda = 500000;
-                batasTanggal = new Date(tanggalPencabutan);
-                batasTanggal.setDate(tanggalPencabutan.getDate() + 60);
-            } else if (diffDays > 60 && diffDays <= 90) {
+                batasTanggal = new Date(hariSetelahPencabutan);
+                batasTanggal.setDate(hariSetelahPencabutan.getDate() + 60);
+                    } else if (diffDays > 60 && diffDays <= 90) {
                 denda = 750000;
-                batasTanggal = new Date(tanggalPencabutan);
-                batasTanggal.setDate(tanggalPencabutan.getDate() + 90);
-            } else if (diffDays > 90 && diffDays <= 120) {
+                batasTanggal = new Date(hariSetelahPencabutan);
+                batasTanggal.setDate(hariSetelahPencabutan.getDate() + 90);
+                    } else if (diffDays > 90 && diffDays <= 120) {
                 denda = 1000000;
-                batasTanggal = new Date(tanggalPencabutan);
-                batasTanggal.setDate(tanggalPencabutan.getDate() + 120);
-            } else if (diffDays > 120) {
+                batasTanggal = new Date(hariSetelahPencabutan);
+                batasTanggal.setDate(hariSetelahPencabutan.getDate() + 120);
+                    } else if (diffDays > 120) {
                 denda = 1750000;
                 batasTanggal = 'Tidak ada batas tanggal, ini adalah denda maksimum.';
             }
-
             let batasTanggalStr = '';
             if (typeof batasTanggal !== 'string') {
                 batasTanggalStr = batasTanggal.toLocaleDateString();
