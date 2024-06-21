@@ -189,22 +189,22 @@
             if (diffDays <= 30) {
                 denda = 200000;
                 batasTanggal = new Date(hariSetelahPencabutan);
-                batasTanggal.setDate(hariSetelahPencabutan.getDate() + 30);
+                batasTanggal.setDate(hariSetelahPencabutan.getDate() + 29);
                     } else if (diffDays > 30 && diffDays <= 60) {
                 denda = 500000;
                 batasTanggal = new Date(hariSetelahPencabutan);
-                batasTanggal.setDate(hariSetelahPencabutan.getDate() + 60);
+                batasTanggal.setDate(hariSetelahPencabutan.getDate() + 59);
                     } else if (diffDays > 60 && diffDays <= 90) {
                 denda = 750000;
                 batasTanggal = new Date(hariSetelahPencabutan);
-                batasTanggal.setDate(hariSetelahPencabutan.getDate() + 90);
+                batasTanggal.setDate(hariSetelahPencabutan.getDate() + 89);
                     } else if (diffDays > 90 && diffDays <= 120) {
                 denda = 1000000;
                 batasTanggal = new Date(hariSetelahPencabutan);
-                batasTanggal.setDate(hariSetelahPencabutan.getDate() + 120);
+                batasTanggal.setDate(hariSetelahPencabutan.getDate() + 119);
                     } else if (diffDays > 120) {
                 denda = 1750000;
-                batasTanggal = 'Tidak ada batas tanggal, ini adalah denda maksimum.';
+                batasTanggal = 'Denda maksimum.';
             }
             let batasTanggalStr = '';
             if (typeof batasTanggal !== 'string') {
