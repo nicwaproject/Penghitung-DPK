@@ -185,11 +185,15 @@
 
             let denda = 0;
             let batasTanggal = '';
+            let batasJumlahTunggakanTanggal = '';
 
             if (diffDays <= 30) {
                 denda = 200000;
                 batasTanggal = new Date(hariSetelahPencabutan);
                 batasTanggal.setDate(hariSetelahPencabutan.getDate() + 29);
+                if (batasTanggal.getDate() > 25) {
+                    batasJumlahTunggakanTanggal = new Date(batasTanggal.getFullYear(), batasTanggal.getMonth(), 25);
+                }
                     } else if (diffDays > 30 && diffDays <= 60) {
                 denda = 500000;
                 batasTanggal = new Date(hariSetelahPencabutan);
@@ -218,6 +222,7 @@
             const resultElement = document.getElementById('result');
             resultElement.innerHTML = `
                 <div class="highlight"><span>Tanggal Putus / Segel:</span><span>${tanggalPencabutan.toLocaleDateString()}</span></div>
+                ${batasJumlahTunggakanTanggalStr ? `<div><span>Batas Tunggakan:</span><span>${batasJumlahTunggakanTanggalStr}</span></div>` : ''}
                 <div><span>Jumlah Tunggakan:</span><span>Rp ${jumlahTunggakan.toLocaleString()}</span></div>
                 <div><span>Denda:</span><span>Rp ${denda.toLocaleString()}</span></div>
                 <div class="highlight"><span>Batas Waktu Pembayaran:</span><span>${batasTanggalStr}</span></div>
