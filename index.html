@@ -192,40 +192,46 @@
                 batasTanggal = new Date(hariSetelahPencabutan);
                 batasTanggal.setDate(hariSetelahPencabutan.getDate() + 29);
                 if (batasTanggal.getDate() > 25) {
-                    batasJumlahTunggakanTanggal = new Date(batasTanggal.getFullYear(), batasTanggal.getMonth(), 25);
-                }
-                    } else if (diffDays > 30 && diffDays <= 60) {
+            batasJumlahTunggakanTanggal = new Date(batasTanggal.getFullYear(), batasTanggal.getMonth(), 25);
+        }
+            } else if (diffDays > 30 && diffDays <= 60) {
                 denda = 500000;
                 batasTanggal = new Date(hariSetelahPencabutan);
                 batasTanggal.setDate(hariSetelahPencabutan.getDate() + 59);
-                    } else if (diffDays > 60 && diffDays <= 90) {
+            } else if (diffDays > 60 && diffDays <= 90) {
                 denda = 750000;
                 batasTanggal = new Date(hariSetelahPencabutan);
                 batasTanggal.setDate(hariSetelahPencabutan.getDate() + 89);
-                    } else if (diffDays > 90 && diffDays <= 120) {
+            } else if (diffDays > 90 && diffDays <= 120) {
                 denda = 1000000;
                 batasTanggal = new Date(hariSetelahPencabutan);
                 batasTanggal.setDate(hariSetelahPencabutan.getDate() + 119);
-                    } else if (diffDays > 120) {
+            } else if (diffDays > 119) {
                 denda = 1750000;
                 batasTanggal = 'Denda maksimum.';
             }
+
             let batasTanggalStr = '';
-            if (typeof batasTanggal !== 'string') {
-                batasTanggalStr = batasTanggal.toLocaleDateString();
-            } else {
-                batasTanggalStr = batasTanggal;
-            }
+    if (typeof batasTanggal !== 'string') {
+        batasTanggalStr = batasTanggal.toLocaleDateString();
+    } else {
+        batasTanggalStr = batasTanggal;
+    }
+
+    let batasJumlahTunggakanTanggalStr = '';
+    if (batasJumlahTunggakanTanggal instanceof Date) {
+        batasJumlahTunggakanTanggalStr = batasJumlahTunggakanTanggal.toLocaleDateString();
+    }
 
             const totalTunggakan = jumlahTunggakan + denda;
 
             const resultElement = document.getElementById('result');
             resultElement.innerHTML = `
                 <div class="highlight"><span>Tanggal Putus / Segel:</span><span>${tanggalPencabutan.toLocaleDateString()}</span></div>
-                ${batasJumlahTunggakanTanggalStr ? `<div><span>Batas Tunggakan:</span><span>${batasJumlahTunggakanTanggalStr}</span></div>` : ''}
+                ${batasJumlahTunggakanTanggalStr ? `<div class="highlight"><span>Batas Tunggakan:</span><span>${batasJumlahTunggakanTanggalStr}</span></div>` : ''}
                 <div><span>Jumlah Tunggakan:</span><span>Rp ${jumlahTunggakan.toLocaleString()}</span></div>
                 <div><span>Denda:</span><span>Rp ${denda.toLocaleString()}</span></div>
-                <div class="highlight"><span>Batas Waktu Pembayaran:</span><span>${batasTanggalStr}</span></div>
+                <div class="highlight"><span>Batas Denda:</span><span>${batasTanggalStr}</span></div>
                 <div class="total-highlight"><span>Total Pembayaran:</span><span>Rp ${totalTunggakan.toLocaleString()}</span></div>
             `;
         }
